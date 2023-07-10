@@ -1095,15 +1095,6 @@ x - Figure out what to do about collections
 
   (into {:a 5 :b 2} '([:c 6] [:b 999]))
 
-  )
-  (->> type-env
-       (filter (fn [[_ typ]]
-                 (core/or (= (:type typ) :scheme)
-                          (some #(schema/occurs? % typ) types))))
-       (into {})))
-
-(comment
-
   (Character/toUpperCase \q)
   ;; => \Q
 
