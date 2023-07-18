@@ -937,17 +937,31 @@
 
 (comment
 
-  (Character/toUpperCase \q)
-  ;; => \Q
+  ; How function overloading in a type-env might look:
+  (def tiny-type-env
+    {'+ [(binary-transform INT)
+         (binary-transform DOUBLE)
+         (scheme (fn-of [INT DOUBLE] DOUBLE))
+         (scheme (fn-of [DOUBLE INT] DOUBLE))]})
 
-  (char-lower \Q)
-  ;; => \q
+  ; Idea for how typeclasses can be defined in schema-inference
+  (def typeclasses
+    {:number ['int? 'double?]
+     :comparable ['int? 'double? 'char? 'string? 'boolean?]
+     :counted [:vector :map-of :set 'string?]
+     :callable [:=> :map-of :set]})
 
-  (char-lower \8)
-  ;; => \8
-
-  (- -5)
-
-  (pow 5 2)
-
+  ; Example of how generalize should work on an input specifying typeclasses
+  (schema/generalize {'a {:type :s-var, :sym 'b}}
+                {:type   :=>
+                 :input  {:type     :cat
+                          :children [{:type :s-var, :sym 'a, :typeclasses [:number]}]}
+                 :output {:type :s-var, :sym 'b, :typeclasses [:number]}})
+  ;; =>
+  ;; {:type :scheme,
+  ;;  :s-vars [a],
+  ;;  :body
+  ;;  {:type :=>,
+  ;;   :input {:type :cat, :children [{:type :s-var, :sym a, :typeclasses [:number]}]},
+  ;;   :output {:type :s-var, :sym b, :typeclasses [:number]}}}
   )
