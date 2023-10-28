@@ -314,6 +314,10 @@
     (let [idx (mod idx (count coll))]
       (nth coll idx))))
 
+(defn singleton
+  [x]
+  [x])
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Set
 
@@ -463,14 +467,15 @@
    'int-div            (fn-of [INT INT] DOUBLE)
    'int-quot           (binary-transform INT)
    'int-mod            (binary-transform INT)
-   'int-inc            (unary-transform INT)
-   'int-dec            (unary-transform INT)
+  ;;  'int-inc            (unary-transform INT)
+  ;;  'int-dec            (unary-transform INT)
   ;;  'int-neg            (unary-transform INT)
   ;;  'int-abs            (unary-transform INT)
   ;;  `int-pow            (binary-transform INT)
   ;;  `int-square         (unary-transform INT)
-   ;'int-lt              (binary-pred INT)
-   ;'int-gt              (binary-pred INT)
+   'int-lt              (binary-pred INT)
+   'int-gt              (binary-pred INT)
+   'int-eq              (binary-pred INT)
    ;'int-le              (binary-pred INT)
    ;'int-ge              (binary-pred INT)
    'double-add         (binary-transform DOUBLE)
@@ -478,23 +483,24 @@
    'double-mult        (binary-transform DOUBLE)
    'double-div         (binary-transform DOUBLE)
    'double-quot        (binary-transform DOUBLE)
-   'double-mod         (binary-transform DOUBLE)
-   'double-inc         (unary-transform DOUBLE)
-   'double-dec         (unary-transform DOUBLE)
+  ;;  'double-mod         (binary-transform DOUBLE)
+  ;;  'double-inc         (unary-transform DOUBLE)
+  ;;  'double-dec         (unary-transform DOUBLE)
   ;;  'double-neg         (unary-transform DOUBLE)
   ;;  'double-abs         (unary-transform DOUBLE)
   ;;  `double-pow         (binary-transform DOUBLE)
   ;;  `double-square      (unary-transform DOUBLE)
-   ;'double-lt           (binary-pred DOUBLE)
-   ;'double-gt           (binary-pred DOUBLE)
+  ;;  'double-lt           (binary-pred DOUBLE)
+  ;;  'double-gt           (binary-pred DOUBLE)
+  ;;  'double-eq           (binary-pred DOUBLE)
    ;'double-le           (binary-pred DOUBLE)
    ;'double-ge           (binary-pred DOUBLE)
-   'int                (fn-of [DOUBLE] INT)
+  ;;  'int                (fn-of [DOUBLE] INT)
    'double             (fn-of [INT] DOUBLE)
    'char->int          (fn-of [CHAR] INT)
-   ;'min-int             (binary-transform INT)
+   'min-int             (binary-transform INT)
    ;'min-double          (binary-transform DOUBLE)
-   ;'max-int             (binary-transform INT)
+   'max-int             (binary-transform INT)
    ;'max-double          (binary-transform DOUBLE)
    'sqrt               (unary-transform DOUBLE)
   ;;  `sin                (unary-transform DOUBLE)
@@ -592,6 +598,7 @@
                         :s-vars ['a]
                         :body   (fn-of [(vector-of (s-var 'a)) INT INT]
                                        (vector-of (s-var 'a)))}
+   'singleton          (scheme (fn-of [(s-var 'a)] (vector-of (s-var 'a))))
    'first              {:type   :scheme
                         :s-vars ['a]
                         :body   (fn-of [(vector-of (s-var 'a))] (s-var 'a))}
@@ -846,7 +853,7 @@
     ->vector3         vector
     acos              erp12.cbgp-lite.lang.lib/safe-acos
     append-str        str
-    asin              erp12.cbgp-lite.lang.lib/safe-asin     
+    asin              erp12.cbgp-lite.lang.lib/safe-asin
     char->int         int
     char-occurrences  erp12.cbgp-lite.lang.lib/occurrences-of
     comp2-fn1         comp
@@ -880,7 +887,10 @@
     int-add           +
     int-dec           dec
     int-div           erp12.cbgp-lite.lang.lib/safe-div
+    int-eq            =
+    int-gt            >' 
     int-inc           inc
+    int-lt            <'
     int-mod           erp12.cbgp-lite.lang.lib/safe-mod
     int-mult          *
     int-neg           -
@@ -899,6 +909,8 @@
     map-str           mapv
     map-vec           mapv
     map2-vec          mapv
+    max-int           max'
+    min-int           min'
     nth-or-else       nth
     nth-str           erp12.cbgp-lite.lang.lib/safe-nth
     partial1-fn2      partial
